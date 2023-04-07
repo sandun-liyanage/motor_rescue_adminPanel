@@ -1,10 +1,15 @@
-import { useState } from 'react'
+import { useState } from "react";
+import Sidebar from "./sideNavBar";
+import { BrowserRouter as Router } from "react-router-dom";
 
 function App() {
-
   return (
-    <p>ss</p>
-  )
+    <Router>
+      <div className="App">
+        <Sidebar />
+      </div>
+    </Router>
+  );
 }
 
-export default App
+export default App;
