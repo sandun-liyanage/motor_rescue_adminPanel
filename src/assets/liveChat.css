@@ -1,0 +1,44 @@
+.new-message-form {
+    position: fixed;
+    bottom: 0;
+    left: 40vh;
+    width: 65%;
+    padding: 10px;
+    box-sizing: border-box;
+  }
+
+.send-button {
+    background-color: #744bdb;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-left: 10px;
+}
+
+.send-button:hover {
+    background-color: #3e8e41;
+}
+
+.new-message-input {
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 16px;
+    width: 80%;
+    box-sizing: border-box;
+}
+
+.message {
+    margin: 10px;
+    display: flex;
+    align-items: flex-end;
+    max-width: 60%;
+    width:fit-content;
+    padding: 10px 20px 10px 10px;
+    border-radius: 5px;
+    background-color: #c6c1d3;
+}
