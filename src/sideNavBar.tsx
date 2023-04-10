@@ -39,7 +39,7 @@ const Sidebar = () => {
             <NavLink to="/" className="activeClicked">
               <CDBSidebarMenuItem icon="home">Home</CDBSidebarMenuItem>
             </NavLink>
-            <NavLink to="/tables" className="activeClicked">
+            <NavLink to="/liveChat" className="activeClicked">
               <CDBSidebarMenuItem icon="comment-alt">Live Chat</CDBSidebarMenuItem>
             </NavLink>
             <NavLink to="/profile" className="activeClicked">

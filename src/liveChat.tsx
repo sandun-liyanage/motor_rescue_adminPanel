@@ -14,7 +14,7 @@ import {
 import "./assets/liveChat.css"
 import firebase  from 'firebase/compat/app';
 
-export const Chat = ({ room } : {room: any}) => {
+export const Chat = ({ id } : {id: any}) => {
   const [messages, setMessages] = useState<any[]>([]);
   const [newMessage, setNewMessage] = useState("");
   const messagesRef = collection(db, "messages-admin");
@@ -22,7 +22,7 @@ export const Chat = ({ room } : {room: any}) => {
   useEffect(() => {
     const queryMessages = query(
       messagesRef,
-      where("room", "==", room),
+      where("id", "==", id),
       orderBy("createdAt")
     );
     const unsuscribe = onSnapshot(queryMessages, (snapshot) => {
@@ -44,24 +44,29 @@ export const Chat = ({ room } : {room: any}) => {
     await addDoc(messagesRef, {
       text: newMessage,
       createdAt: serverTimestamp(),
-      //user: auth.currentUser!.email,
-      room,
+      user: "admin",
+      id: id,
     });
 
     setNewMessage("");
   };
-
+  var classNme = "message";
   return (
     <div className="chat-app">
       <div className="header">
-        <h1>Welcome to: {room.toUpperCase()}</h1>
+        <h1>Welcome to: {id.toUpperCase()}</h1>
       </div>
       <div className="messages">
-        {messages.map((message) => (
-          <div key={message.id} className="message">
-            <span className="user">{message.user}:</span> {message.text}
+        {messages.map((message) => {
+          classNme = "message";
+          message.user==='admin'? classNme='adminMessage': '';
+          return(
+          <div key={message.id} className={classNme}>
+            <>{message.text}  &thinsp;</>
+            <span className="timestamp "></span> 
           </div>
-        ))}
+          )
+          })}
       </div>
       <form onSubmit={handleSubmit} className="new-message-form">
         <input
