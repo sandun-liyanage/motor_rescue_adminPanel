@@ -5,6 +5,7 @@ import { Chat } from "./liveChat";
 import ChatList from "./ChatList";
 import "./assets/app.css"
 import Home from "./Home";
+import ChatAdmin from "./ChatAdmin";
 
 function App() {
   
@@ -12,14 +13,11 @@ function App() {
     <Router>
       <div className="App">
       <Sidebar />
-        {/*
-        <div style={{paddingLeft: "40vh"}}><ChatList /></div>
-        <div style={{paddingLeft: "65vh"}}><Chat id={"sss"} /></div>
-  */}
+        
         <div className="content">
           <Routes>
             <Route path="/" element={<Home/>} />
-            <Route path="/liveChat" element={<Chat id={"sss"} />} />  
+            <Route path="/liveChat" element={<ChatAdmin />} />  
           </Routes>
         </div>
       </div>
@@ -28,3 +26,6 @@ function App() {
 }
 
 export default App;
+
+
+

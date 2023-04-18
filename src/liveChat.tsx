@@ -54,7 +54,7 @@ export const Chat = ({ id } : {id: any}) => {
   return (
     <div className="chat-app">
       <div className="header">
-        <h1>Welcome to: {id.toUpperCase()}</h1>
+        <h1>Chat With: {id}</h1>
       </div>
       <div className="messages">
         {messages.map((message) => {
