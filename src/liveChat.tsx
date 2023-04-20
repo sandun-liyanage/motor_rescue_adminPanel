@@ -50,12 +50,17 @@ export const Chat = ({ id } : {id: any}) => {
 
     setNewMessage("");
   };
+
   var classNme = "message";
-  return (
+
+  if(id === 'null'){
+    return(<></>);
+  }else {
+     return (
     <div className="chat-app">
-      <div className="header">
+      {/* <div className="header">
         <h1>Chat With: {id}</h1>
-      </div>
+      </div> */}
       <div className="messages">
         {messages.map((message) => {
           classNme = "message";
@@ -83,3 +88,4 @@ export const Chat = ({ id } : {id: any}) => {
     </div>
   );
 };
+}

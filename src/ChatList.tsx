@@ -8,6 +8,7 @@ import {
   onSnapshot,
   query,
   orderBy,
+  getDocs,
 } from "firebase/firestore";
 import { useNavigate  } from 'react-router-dom';
 import ChatAdmin from './ChatAdmin';
@@ -21,6 +22,8 @@ export default function ChatList() {
 
   const [mechanics, setMechanics] = useState<any[]>([]);
   const mechanicsRef = collection(db, "Mechanics");
+
+  const navigate = useNavigate()
 
   useEffect(() => {
     const queryDrivers = query(
@@ -56,25 +59,51 @@ export default function ChatList() {
     return () => unsuscribe();
   }, []);
 
-  const navigate = useNavigate()
 
-  const handleClick = (e: any) => {
+  //------------------------------------------
+  // const [email, setEmail] = useState<string | null>(null);
+
+  // const getDriverEmail = async (e: any) => {
+  //   const q = query(collection(db, 'Drivers'), where('fname', '==', e));
+  //   const snapshot = await getDocs(q);
+  //   if (snapshot.empty) {
+  //     console.log('No matching documents.');
+  //     return;
+  //   }
+  //   snapshot.forEach((doc) => {
+  //     //const data = doc.data() as Driver;
+  //     setEmail(doc.data().email);
+  //   });
+  // };
+  
+  //-----------------navigate to chat----------------
+  
+  const handleClickDriver =  (e: any) => {
     //<Chat id={"ss"} />
-    //navigate('/liveChat/${paramValue}')
     console.log(e);
+    //getDriverEmail(e);
+    //console.log(email);
+    navigate('/liveChat/'+ e +'-admin')
+    window.location.reload();
+  };
+
+  const handleClickMechanic =  (e: any) => {
+    console.log(e);
+    navigate('/liveChat/'+ e +'-admin')
+    window.location.reload();
   };
 
   return (
     <>
     <div className='chatList'>
-    <div className='chatListHeader'>Drivers</div>
+    <div className='chatListHeader'><h5>Drivers</h5></div>
     <div className="drivers">
         {drivers.map((driver) => {
           return(
           <div key={driver.id} className="driverList">
             {/* <div className='driverListItem'>{driver.fname}  &thinsp;</div> */}
             <ul className="list-group">
-              <li className="list-group-item" onClick={handleClick}>{driver.fname}</li>
+              <li className="list-group-item" onClick={(e) => handleClickDriver(driver.fname)}>{driver.fname}</li>
             </ul>
           </div>
           )
@@ -84,14 +113,14 @@ export default function ChatList() {
     
     <hr></hr>
     <div className='chatList'>
-    <div className='chatListHeader'>Mechanics</div>
+    <div className='chatListHeader'><h5>Mechanics</h5></div>
     <div className="mechanics">
         {mechanics.map((mechanic) => {
           return(
           <div key={mechanic.id} className="mechanicList">
             {/* <div className='mechanicListItem'>{mechanic.fname}  &thinsp;</div> */}
             <ul className="list-group">
-              <li className="list-group-item">{mechanic.fname}</li>
+              <li className="list-group-item" onClick={(e) => handleClickMechanic(mechanic.fname)}>{mechanic.fname}</li>
             </ul>
           </div>
           )

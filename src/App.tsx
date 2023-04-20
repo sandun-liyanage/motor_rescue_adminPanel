@@ -17,7 +17,7 @@ function App() {
         <div className="content">
           <Routes>
             <Route path="/" element={<Home/>} />
-            <Route path="/liveChat" element={<ChatAdmin />} />  
+            <Route path="/liveChat/:id" element={<ChatAdmin />} />  
           </Routes>
         </div>
       </div>
