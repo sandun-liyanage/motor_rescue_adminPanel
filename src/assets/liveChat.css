@@ -1,7 +1,7 @@
 .new-message-form {
     position: fixed;
     bottom: 0;
-    left: 50%;
+    left: 55%;
     width: 85%;
     padding: 10px;
     box-sizing: border-box;
@@ -36,7 +36,7 @@
     margin: 10px;
     align-items: flex-end;
     max-width: 60%;
-    width:fit-content;
+    width: 40%;
     padding: 10px 20px 10px 10px;
     border-radius: 5px;
     background-color: #c6c1d3;
@@ -45,6 +45,7 @@
 .adminMessage {
     align-self: flex-end;
     background-color: #9d84db;
+    text-align: end;
 }
 
 .timestamp {
@@ -72,10 +73,6 @@
 .chatListHeader {
     display: inline-block;
     padding: 10px 20px;
-    background-color: #f0f0f0;
-    border: 2px solid #ccc;
-    border-radius: 5px;
-    box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
     width: 100%;
     text-align: center;
 }

@@ -20,7 +20,7 @@ const Sidebar = () => {
         className={""}
         breakpoint={0}
         toggled={false}
-        minWidth={"40vh"}
+        minWidth={"20vh"}
         maxWidth={"40vh"}
         
       >
