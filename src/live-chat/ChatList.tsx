@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { db, auth } from "./firebase";
+import { db, auth } from "../firebase";
 import {
   collection,
   addDoc,
@@ -13,7 +13,7 @@ import {
 import { useNavigate  } from 'react-router-dom';
 import ChatAdmin from './ChatAdmin';
 import { Chat } from './liveChat';
-import Home from './Home';
+import Home from '../Home';
 
 
 export default function ChatList() {
@@ -103,7 +103,7 @@ export default function ChatList() {
           <div key={driver.id} className="driverList">
             {/* <div className='driverListItem'>{driver.fname}  &thinsp;</div> */}
             <ul className="list-group">
-              <li className="list-group-item" onClick={(e) => handleClickDriver(driver.fname)}>{driver.fname}</li>
+              <li className="list-group-item" onClick={(e) => handleClickDriver(driver.fname)}>{driver.fname} {driver.lname}</li>
             </ul>
           </div>
           )
@@ -120,7 +120,7 @@ export default function ChatList() {
           <div key={mechanic.id} className="mechanicList">
             {/* <div className='mechanicListItem'>{mechanic.fname}  &thinsp;</div> */}
             <ul className="list-group">
-              <li className="list-group-item" onClick={(e) => handleClickMechanic(mechanic.fname)}>{mechanic.fname}</li>
+              <li className="list-group-item" onClick={(e) => handleClickMechanic(mechanic.fname)}>{mechanic.fname} {mechanic.lname}</li>
             </ul>
           </div>
           )

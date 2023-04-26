@@ -42,8 +42,11 @@ const Sidebar = () => {
             <NavLink to="/liveChat/null" className="activeClicked">
               <CDBSidebarMenuItem icon="comment-alt">Live Chat</CDBSidebarMenuItem>
             </NavLink>
-            <NavLink to="/profile" className="activeClicked">
+            <NavLink to="/users" className="activeClicked">
               <CDBSidebarMenuItem icon="user">Users</CDBSidebarMenuItem>
+            </NavLink>
+            <NavLink to="/jobs" className="activeClicked">
+              <CDBSidebarMenuItem icon="briefcase">Jobs</CDBSidebarMenuItem>
             </NavLink>
             <NavLink to="/analytics" className="activeClicked">
               <CDBSidebarMenuItem icon="chart-line">

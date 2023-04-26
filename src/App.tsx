@@ -1,11 +1,13 @@
 import { useState } from "react";
 import Sidebar from "./sideNavBar";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { Chat } from "./liveChat";
-import ChatList from "./ChatList";
+import { Chat } from "./live-chat/liveChat";
+import ChatList from "./live-chat/ChatList";
 import "./assets/app.css"
 import Home from "./Home";
-import ChatAdmin from "./ChatAdmin";
+import ChatAdmin from "./live-chat/ChatAdmin";
+import Users from "./users/Users";
+import Jobs from "./jobs/Jobs";
 
 function App() {
   
@@ -17,7 +19,9 @@ function App() {
         <div className="content">
           <Routes>
             <Route path="/" element={<Home/>} />
-            <Route path="/liveChat/:id" element={<ChatAdmin />} />  
+            <Route path="/liveChat/:id" element={<ChatAdmin />} /> 
+            <Route path="/users" element={<Users />} /> 
+            <Route path="/jobs" element={<Jobs />} /> 
           </Routes>
         </div>
       </div>

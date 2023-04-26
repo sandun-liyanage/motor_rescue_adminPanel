@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { db, auth } from "./firebase";
+import { db, auth } from "../firebase";
 import {
   collection,
   addDoc,
@@ -11,7 +11,7 @@ import {
 } from "firebase/firestore";
 
 //import "../styles/Chat.css";
-import "./assets/liveChat.css"
+import "../assets/liveChat.css"
 import firebase  from 'firebase/compat/app';
 
 export const Chat = ({ id } : {id: any}) => {
