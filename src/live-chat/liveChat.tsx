@@ -54,7 +54,14 @@ export const Chat = ({ id } : {id: any}) => {
   var classNme = "message";
 
   if(id === 'null'){
-    return(<></>);
+    return(
+    <>
+      <center style={{marginTop:"30%"}}>
+      <h1 className="display-2">Live Chat</h1>
+      <p className="font-weight-light">Select a user to chat</p>
+      </center>
+    </>
+    );
   }else {
      return (
     <div className="chat-app">

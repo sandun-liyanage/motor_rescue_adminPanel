@@ -9,7 +9,11 @@ import {
   query,
   orderBy,
   getDocs,
+  doc,
+  deleteDoc
 } from "firebase/firestore";
+
+import '../assets/modal.css';
 
 export default function users() {
   const [user, setuser] = useState("drivers");
@@ -115,6 +119,34 @@ export default function users() {
     }
   }
 
+  //------------------------------------------
+
+  function _deleteDoc(id: any, collection:any){
+    const docRef = doc(db, collection, id);
+    deleteDoc(docRef)
+    .then(() => {
+        console.log("Document has been deleted successfully.")
+    })
+    .catch(error => {
+        console.log(error);
+    })
+  }
+
+  //----------------------------------------------
+
+  const [modal, setModal] = useState(false);
+
+  const toggleModal = () => {
+    setModal(!modal);
+  };
+
+  if(modal) {
+    document.body.classList.add('active-modal')
+  } else {
+    document.body.classList.remove('active-modal')
+  }
+
+
   var rowNum = 1;
 
   if (user == "drivers") {
@@ -168,7 +200,7 @@ export default function users() {
           <tbody>
             {filteredDrivers.map((driver) => {
               return (
-                <tr>
+                <tr key={driver.id}>
                   <th scope="row" style={{ width: "50px" }}>
                     {rowNum++}
                   </th>
@@ -190,8 +222,9 @@ export default function users() {
                     </button>
                     <button
                       type="button"
-                      className="btn btn-outline-primary"
+                      className="btn btn-outline-danger"
                       style={{ marginLeft: "10px" }}
+                      onClick={(e) => _deleteDoc(driver.id, "Drivers")}
                     >
                       Delete
                     </button>
@@ -255,7 +288,7 @@ export default function users() {
           <tbody>
             {filteredMechanics.map((mechanic) => {
               return (
-                <tr>
+                <tr key={mechanic.id}>
                   <th scope="row" style={{ width: "50px" }}>
                     {rowNum++}
                   </th>
@@ -273,13 +306,15 @@ export default function users() {
                       type="button"
                       className="btn btn-outline-primary"
                       style={{ marginRight: "10px" }}
+                      onClick={toggleModal}
                     >
                       Edit
                     </button>
                     <button
                       type="button"
-                      className="btn btn-outline-primary"
+                      className="btn btn-outline-danger"
                       style={{ marginLeft: "10px" }}
+                      
                     >
                       Delete
                     </button>
@@ -289,6 +324,27 @@ export default function users() {
             })}
           </tbody>
         </table>
+        
+        {modal && (
+        <div className="modalz">
+          <div onClick={toggleModal} className="overlay"></div>
+          <div className="modalz-content">
+            <h2>Warning</h2>
+            <p>
+              Do you want to delete the selected document?
+            </p>
+            <button className="close-modal" onClick={toggleModal}>
+              X
+            </button>
+            <div className="btnClass">
+            <button type="button" className="btn btn-outline-primary" style={{marginRight:"10px"}} onClick={toggleModal}>Cancel</button>
+            <button type="button" className="btn btn-danger" >Delete</button>
+            </div>
+          </div>
+        </div>
+      )}
+      
+        
       </>
     );
   }
