@@ -1,6 +1,7 @@
 .loginPage {
-    width: 100vh;
-    height: 100vh;
-    left: 0;
-    background-color: blue;
+    width: 50%;
+    margin-top: 150px;
+    margin-left: auto;
+    margin-right: auto;
+    
 }

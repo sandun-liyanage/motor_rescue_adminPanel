@@ -3,6 +3,7 @@ import { Form, Button, Card, Alert } from "react-bootstrap";
 import { UserAuth } from "../services/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import "../assets/loginPage.css"
+import "../assets/modal.css"
 
 export default function Login() {
   const [email, setemail] = useState("admin@motorrescue.com");
@@ -22,17 +23,34 @@ export default function Login() {
       navigate("/")
     } catch (e: any){
       await setError('' + e.message);
+      toggleModal();
     }
     
     console.log(error)
     setLoading(false);
   }
 
+  //--------------------------------------------------
+
+  const [modal, setModal] = useState(false);
+
+  const toggleModal = () => {
+    setModal(!modal);
+  };
+
+  if (modal) {
+    document.body.classList.add("active-modal");
+  } else {
+    document.body.classList.remove("active-modal");
+  }
+
   return (
     <div className="loginPage">
       <Card>
         <Card.Body>
-          <h2 className="text-center mb-4">Log In</h2>
+        <center>
+        <h1 className="display-6">Log In</h1>
+        </center>
           <form>
             <div className="form-group">
               <label>Email address</label>
@@ -62,12 +80,35 @@ export default function Login() {
               type="button"
               className="btn btn-primary"
               onClick={handleSubmit}
+              style={{float:"right"}}
             >
-              Submit
+              Login
             </button>
           </form>
         </Card.Body>
       </Card>
+
+      {modal && (
+          <div className="modalz">
+            <div onClick={toggleModal} className="overlay"></div>
+            <div className="modalz-content">
+              <h2 style={{color:"red"}}>Error</h2>
+              <p>{error}</p>
+              <button className="close-modal" onClick={toggleModal}>
+                X
+              </button>
+              <div className="btnClass">
+                <button
+                  type="button"
+                  className="btn btn-outline-primary"
+                  onClick={toggleModal}
+                >
+                  OK
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
     </div>
   );
 }

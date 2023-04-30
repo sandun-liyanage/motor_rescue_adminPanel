@@ -19,10 +19,10 @@ function App() {
   return (
     <Router>
 
+<AuthContextProvider>
       <div className="App">
         <Sidebar />
         <div className="content">
-          <AuthContextProvider>
             <Routes>
               <Route path="/login" element={<Login />} />
               <Route path="/logout" element={<ProtectedRoute><Logout /></ProtectedRoute>} />
@@ -31,10 +31,10 @@ function App() {
               <Route path="/users" element={<ProtectedRoute><Users /></ProtectedRoute>} />
               <Route path="/jobs" element={<ProtectedRoute><Jobs /></ProtectedRoute>} />
             </Routes>
-          </AuthContextProvider>
         </div>
       </div>
 
+      </AuthContextProvider>
     </Router>
   );
 }
