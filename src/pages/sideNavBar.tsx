@@ -8,10 +8,13 @@ import {
   CDBSidebarMenuItem,
 } from "cdbreact";
 import { NavLink } from "react-router-dom";
+
+
+
 const Sidebar = () => {
   return (
     <div
-      style={{ display: "flex", height: "100%", overflow: "scroll initial", position:"fixed", top:0  }}
+      style={{ display: "flex", height: "100%", overflow: "scroll initial", position:"fixed", top:0, }}
     >
       <CDBSidebar
         textColor="#fff"
@@ -53,7 +56,7 @@ const Sidebar = () => {
                 Sales Forecast
               </CDBSidebarMenuItem>
             </NavLink>
-            <NavLink to="/hero404" target="_blank" className="activeClicked">
+            <NavLink to="/logout" className="activeClicked">
               <CDBSidebarMenuItem icon="power-off">
                 Logout
               </CDBSidebarMenuItem>

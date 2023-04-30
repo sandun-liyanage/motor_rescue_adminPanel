@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { db, auth } from "../firebase";
+import { db, auth } from "../services/firebase";
 import {
   collection,
   addDoc,
@@ -13,7 +13,7 @@ import {
 import { useNavigate  } from 'react-router-dom';
 import ChatAdmin from './ChatAdmin';
 import { Chat } from './liveChat';
-import Home from '../Home';
+import Home from '../pages/Home';
 
 
 export default function ChatList() {

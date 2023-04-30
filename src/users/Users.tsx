@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { db, auth } from "../firebase";
+import { db, auth } from "../services/firebase";
 import {
   collection,
   addDoc,
@@ -9,11 +9,13 @@ import {
   query,
   orderBy,
   getDocs,
+  getDoc,
+  updateDoc,
   doc,
-  deleteDoc
+  deleteDoc,
 } from "firebase/firestore";
 
-import '../assets/modal.css';
+import "../assets/modal.css";
 
 export default function users() {
   const [user, setuser] = useState("drivers");
@@ -121,15 +123,16 @@ export default function users() {
 
   //------------------------------------------
 
-  function _deleteDoc(id: any, collection:any){
+  function _deleteDoc(id: any, collection: any) {
     const docRef = doc(db, collection, id);
     deleteDoc(docRef)
-    .then(() => {
-        console.log("Document has been deleted successfully.")
-    })
-    .catch(error => {
+      .then(() => {
+        console.log("Document has been deleted successfully.");
+        toggleModal();
+      })
+      .catch((error) => {
         console.log(error);
-    })
+      });
   }
 
   //----------------------------------------------
@@ -140,12 +143,91 @@ export default function users() {
     setModal(!modal);
   };
 
-  if(modal) {
-    document.body.classList.add('active-modal')
+  if (modal) {
+    document.body.classList.add("active-modal");
   } else {
-    document.body.classList.remove('active-modal')
+    document.body.classList.remove("active-modal");
   }
 
+  //----------------------------------------------------
+
+  const [formModal, setFormModal] = useState(false);
+  const [fname, setfname] = useState("");
+  const [lname, setlname] = useState("");
+  const [email, setemail] = useState("");
+  const [address, setaddress] = useState("");
+  const [phone, setphone] = useState("");
+
+  const [docid, setdocid] = useState("");
+  const [collectionName, setcollectionName] = useState("");
+
+  async function _editUsers(id: string, collection: string) {
+    const docRef = doc(db, collection, id);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      setfname(docSnap.data().fname);
+      setlname(docSnap.data().lname);
+      setemail(docSnap.data().email);
+      setaddress(docSnap.data().address);
+      setphone(docSnap.data().phone);
+
+      setdocid(id);
+      setcollectionName(collection);
+    } else {
+      console.log("No such document!");
+    }
+
+    toggleFormModal();
+  }
+
+  async function handleFormSubmit() {
+    const docRef = doc(db, collectionName, docid);
+    const docSnap = await getDoc(docRef);
+
+    await updateDoc(docRef, {
+      fname: fname,
+      lname: lname,
+      email: email,
+      address: address,
+      phone: phone,
+    })
+      .then((docRef) => {
+        console.log("successfully updated");
+        toggleupdateModal();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+    console.log(docRef);
+    toggleFormModal();
+  }
+
+  const toggleFormModal = () => {
+    setFormModal(!formModal);
+  };
+
+  if (formModal) {
+    document.body.classList.add("active-modal");
+  } else {
+    document.body.classList.remove("active-modal");
+  }
+
+  //----------------------------------------------
+
+  const [updateModal, setupdateModal] = useState(false);
+  const toggleupdateModal = () => {
+    setupdateModal(!updateModal);
+  };
+
+  if (updateModal) {
+    document.body.classList.add("active-modal");
+  } else {
+    document.body.classList.remove("active-modal");
+  }
+
+  //--------------------------------------------------------
 
   var rowNum = 1;
 
@@ -217,6 +299,7 @@ export default function users() {
                       type="button"
                       className="btn btn-outline-primary"
                       style={{ marginRight: "10px" }}
+                      onClick={(e) => _editUsers(driver.id, "Drivers")}
                     >
                       Edit
                     </button>
@@ -234,6 +317,129 @@ export default function users() {
             })}
           </tbody>
         </table>
+
+        {modal && (
+          <div className="modalz">
+            <div onClick={toggleModal} className="overlay"></div>
+            <div className="modalz-content">
+              <h2>Alert</h2>
+              <p>Document has been deleted successfully.</p>
+              <button className="close-modal" onClick={toggleModal}>
+                X
+              </button>
+              <div className="btnClass">
+                <button
+                  type="button"
+                  className="btn btn-outline-primary"
+                  onClick={toggleModal}
+                >
+                  OK
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {formModal && (
+          <div className="modalz">
+            <div onClick={toggleFormModal} className="overlay"></div>
+            <div className="modalz-content" style={{ width: "40%" }}>
+              <button className="close-modal" onClick={toggleFormModal}>
+                X
+              </button>
+              <center><h1 className="display-6">Edit User</h1><br/></center>
+              <form onSubmit={handleFormSubmit}>
+                <div className="form-group">
+                  <label htmlFor="fname">First Name</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="fname"
+                    placeholder="First Name"
+                    value={fname}
+                    onChange={(e) => setfname(e.target.value)}
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="lname">Last Name</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="lname"
+                    placeholder="Enter Last Name"
+                    value={lname}
+                    onChange={(e) => setlname(e.target.value)}
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="email">Email</label>
+                  <input
+                    type="email"
+                    className="form-control"
+                    id="email"
+                    placeholder="Enter Email"
+                    value={email}
+                    onChange={(e) => setemail(e.target.value)}
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="address">Address</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="address"
+                    placeholder="Enter Address"
+                    value={address}
+                    onChange={(e) => setaddress(e.target.value)}
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="phone">Phone</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="phone"
+                    placeholder="Enter Phone"
+                    value={phone}
+                    onChange={(e) => setphone(e.target.value)}
+                  />
+                </div>
+                <br />
+                <div className="btnClass">
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={(e) => handleFormSubmit()}
+                  >
+                    Submit
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
+
+        {updateModal && (
+          <div className="modalz">
+            <div onClick={toggleupdateModal} className="overlay"></div>
+            <div className="modalz-content">
+              <h2>Alert</h2>
+              <p>Document has been updated successfully.</p>
+              <button className="close-modal" onClick={toggleupdateModal}>
+                X
+              </button>
+              <div className="btnClass">
+                <button
+                  type="button"
+                  className="btn btn-outline-primary"
+                  onClick={toggleupdateModal}
+                >
+                  OK
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </>
     );
   } else {
@@ -306,7 +512,7 @@ export default function users() {
                       type="button"
                       className="btn btn-outline-primary"
                       style={{ marginRight: "10px" }}
-                      onClick={toggleModal}
+                      onClick={(e) => _editUsers(mechanic.id, "Mechanics")}
                     >
                       Edit
                     </button>
@@ -314,7 +520,7 @@ export default function users() {
                       type="button"
                       className="btn btn-outline-danger"
                       style={{ marginLeft: "10px" }}
-                      
+                      onClick={(e) => _deleteDoc(mechanic.id, "Mechanics")}
                     >
                       Delete
                     </button>
@@ -324,27 +530,129 @@ export default function users() {
             })}
           </tbody>
         </table>
-        
+
         {modal && (
-        <div className="modalz">
-          <div onClick={toggleModal} className="overlay"></div>
-          <div className="modalz-content">
-            <h2>Warning</h2>
-            <p>
-              Do you want to delete the selected document?
-            </p>
-            <button className="close-modal" onClick={toggleModal}>
-              X
-            </button>
-            <div className="btnClass">
-            <button type="button" className="btn btn-outline-primary" style={{marginRight:"10px"}} onClick={toggleModal}>Cancel</button>
-            <button type="button" className="btn btn-danger" >Delete</button>
+          <div className="modalz">
+            <div onClick={toggleModal} className="overlay"></div>
+            <div className="modalz-content">
+              <h2>Alert</h2>
+              <p>Document has been deleted successfully.</p>
+              <button className="close-modal" onClick={toggleModal}>
+                X
+              </button>
+              <div className="btnClass">
+                <button
+                  type="button"
+                  className="btn btn-outline-primary"
+                  onClick={toggleModal}
+                >
+                  OK
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      )}
-      
-        
+        )}
+
+        {formModal && (
+          <div className="modalz">
+            <div onClick={toggleFormModal} className="overlay"></div>
+            <div className="modalz-content" style={{ width: "40%" }}>
+              <button className="close-modal" onClick={toggleFormModal}>
+                X
+              </button>
+              <center><h1 className="display-6">Edit User</h1><br/></center>
+              <form onSubmit={handleFormSubmit}>
+                <div className="form-group">
+                  <label htmlFor="fname">First Name</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="fname"
+                    placeholder="First Name"
+                    value={fname}
+                    onChange={(e) => setfname(e.target.value)}
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="lname">Last Name</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="lname"
+                    placeholder="Enter Last Name"
+                    value={lname}
+                    onChange={(e) => setlname(e.target.value)}
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="email">Email</label>
+                  <input
+                    type="email"
+                    className="form-control"
+                    id="email"
+                    placeholder="Enter Email"
+                    value={email}
+                    onChange={(e) => setemail(e.target.value)}
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="address">Address</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="address"
+                    placeholder="Enter Address"
+                    value={address}
+                    onChange={(e) => setaddress(e.target.value)}
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="phone">Phone</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="phone"
+                    placeholder="Enter Phone"
+                    value={phone}
+                    onChange={(e) => setphone(e.target.value)}
+                  />
+                </div>
+                <br />
+                <div className="btnClass">
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={(e) => handleFormSubmit()}
+                  >
+                    Submit
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
+
+        {updateModal && (
+          <div className="modalz">
+            <div onClick={toggleupdateModal} className="overlay"></div>
+            <div className="modalz-content">
+              <h2>Alert</h2>
+              <p>Document has been updated successfully.</p>
+              <button className="close-modal" onClick={toggleupdateModal}>
+                X
+              </button>
+              <div className="btnClass">
+                <button
+                  type="button"
+                  className="btn btn-outline-primary"
+                  onClick={toggleupdateModal}
+                >
+                  OK
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </>
     );
   }
