@@ -103,7 +103,7 @@ export default function ChatList() {
           <div key={driver.id} className="driverList">
             {/* <div className='driverListItem'>{driver.fname}  &thinsp;</div> */}
             <ul className="list-group">
-              <li className="list-group-item" onClick={(e) => handleClickDriver(driver.fname)}>{driver.fname} {driver.lname}</li>
+              <li className="list-group-item list-group-item-action" onClick={(e) => handleClickDriver(driver.fname)}>{driver.fname} {driver.lname}</li>
             </ul>
           </div>
           )
@@ -120,7 +120,7 @@ export default function ChatList() {
           <div key={mechanic.id} className="mechanicList">
             {/* <div className='mechanicListItem'>{mechanic.fname}  &thinsp;</div> */}
             <ul className="list-group">
-              <li className="list-group-item" onClick={(e) => handleClickMechanic(mechanic.fname)}>{mechanic.fname} {mechanic.lname}</li>
+              <li className="list-group-item list-group-item-action" onClick={(e) => handleClickMechanic(mechanic.fname)}>{mechanic.fname} {mechanic.lname}</li>
             </ul>
           </div>
           )
