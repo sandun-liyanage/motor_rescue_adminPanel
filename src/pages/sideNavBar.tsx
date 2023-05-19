@@ -51,11 +51,6 @@ const Sidebar = () => {
             <NavLink to="/jobs" className="activeClicked">
               <CDBSidebarMenuItem icon="briefcase">Jobs</CDBSidebarMenuItem>
             </NavLink>
-            <NavLink to="/analytics" className="activeClicked">
-              <CDBSidebarMenuItem icon="chart-line">
-                Sales Forecast
-              </CDBSidebarMenuItem>
-            </NavLink>
             <NavLink to="/logout" className="activeClicked">
               <CDBSidebarMenuItem icon="power-off">
                 Logout
