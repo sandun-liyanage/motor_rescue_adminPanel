@@ -9,6 +9,7 @@ import {
   query,
   orderBy,
   getDocs,
+  Timestamp,
 } from "firebase/firestore";
 
 interface Job {
@@ -46,6 +47,7 @@ export default function Jobs() {
     const filteredJobs = jobs.filter((job) => {
       const driverEmail = job.driverEmail || "";
       const mechanicEmail = job.mechanicEmail || "";
+      const vehicle = job.vehicle || "";
       const date = job.date || "";
       const jobRequestStatus = job.jobRequestStatus || "";
       const fee = job.fee ? job.fee.toString() : "";
@@ -55,6 +57,7 @@ export default function Jobs() {
       return (
         driverEmail.toLowerCase().includes(search.toLowerCase()) ||
         mechanicEmail.toLowerCase().includes(search.toLowerCase()) ||
+        vehicle.toLowerCase().includes(search.toLowerCase()) ||
         date.toLowerCase().includes(search.toLowerCase()) ||
         jobRequestStatus.toLowerCase().includes(search.toLowerCase()) ||
         fee.toLowerCase().includes(search.toLowerCase()) ||
@@ -91,6 +94,8 @@ export default function Jobs() {
             <th scope="col">#</th>
             <th scope="col">Driver's Email</th>
             <th>Mechanic's Email</th>
+            <th>Vehicle Number</th>
+            <th>Job Description</th>
             <th>Date</th>
             <th>Job Status</th>
             <th>Fee</th>
@@ -115,6 +120,9 @@ export default function Jobs() {
                     {job.mechanicEmail}
                   </a>
                 </td>
+                
+                <td> {job.vehicle}</td>
+                <td> {job.description}</td>
                 <td> {job.date}</td>
                 <td> {job.jobRequestStatus}</td>
                 <td> {job.fee}</td>

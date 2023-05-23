@@ -9,6 +9,10 @@ import {
   query,
   orderBy,
   getDocs,
+  getDoc,
+  updateDoc,
+  doc,
+  deleteDoc,
 } from "firebase/firestore";
 import { useNavigate  } from 'react-router-dom';
 import ChatAdmin from './ChatAdmin';
@@ -78,20 +82,41 @@ export default function ChatList() {
   
   //-----------------navigate to chat----------------
   
-  const handleClickDriver =  (e: any) => {
-    //<Chat id={"ss"} />
+  async function handleClickDriver (e: any, id: string, collection: string) {
+    await handleChatRead(id,collection);
+
     console.log(e);
-    //getDriverEmail(e);
-    //console.log(email);
     navigate('/liveChat/'+ e +'-admin')
     window.location.reload();
+
   };
 
-  const handleClickMechanic =  (e: any) => {
+  async function handleClickMechanic (e: any, id: string, collection: string) {
+    await handleChatRead(id,collection);
+
     console.log(e);
     navigate('/liveChat/'+ e +'-admin')
     window.location.reload();
+    
   };
+
+
+  async function handleChatRead(id: string, collection: string) {
+    const docRef = doc(db, collection, id);
+    const docSnap = await getDoc(docRef);
+
+    await updateDoc(docRef, {
+      read: "true",
+    })
+      .then((docRef) => {
+        console.log("successfully updated");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+    console.log(docRef);
+  }
 
   return (
     <>
@@ -103,7 +128,7 @@ export default function ChatList() {
           <div key={driver.id} className="driverList">
             {/* <div className='driverListItem'>{driver.fname}  &thinsp;</div> */}
             <ul className="list-group">
-              <li className="list-group-item list-group-item-action" onClick={(e) => handleClickDriver(driver.fname)}>{driver.fname} {driver.lname}</li>
+              <li className="list-group-item list-group-item-action" onClick={(e) => handleClickDriver(driver.fname, driver.id, "Drivers")}>{driver.fname} {driver.lname} {driver.read=='false'? "*": null}</li>
             </ul>
           </div>
           )
@@ -120,7 +145,7 @@ export default function ChatList() {
           <div key={mechanic.id} className="mechanicList">
             {/* <div className='mechanicListItem'>{mechanic.fname}  &thinsp;</div> */}
             <ul className="list-group">
-              <li className="list-group-item list-group-item-action" onClick={(e) => handleClickMechanic(mechanic.fname)}>{mechanic.fname} {mechanic.lname}</li>
+              <li className="list-group-item list-group-item-action" onClick={(e) => handleClickMechanic(mechanic.fname, mechanic.id, "Mechanics")}>{mechanic.fname} {mechanic.lname} {mechanic.read=='false'? "*": null}</li>
             </ul>
           </div>
           )
